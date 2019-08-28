@@ -2,7 +2,7 @@ import React, {useRef, useState} from 'react';
 import {Image} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 
-import logo from '../../assets/logo.png';
+import logo from '../../assets/logoM.png';
 
 import Background from '../../components/Background';
 import {signUpRequest} from '../../store/modules/auth/actions';
@@ -78,7 +78,7 @@ export default function SignUp({navigation}) {
           </SubmitButton>
         </Form>
         <SignLink onPress={() => navigation.navigate('SignIn')}>
-          <SignLinkText>Já tenho conta</SignLinkText>
+          <SignLinkText>Já tenho login</SignLinkText>
         </SignLink>
       </Container>
     </Background>

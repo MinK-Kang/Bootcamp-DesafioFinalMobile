@@ -2,7 +2,7 @@ import React, {useRef, useState} from 'react';
 import {Image} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 
-import logo from '../../assets/logo.png';
+import logo from '../../assets/logoM.png';
 
 import Background from '../../components/Background';
 import {signInRequest} from '../../store/modules/auth/actions';
@@ -59,11 +59,11 @@ export default function SignIn({navigation}) {
           />
 
           <SubmitButton loading={loading} onPress={handleSubmit}>
-            Acessar
+            Entrar
           </SubmitButton>
         </Form>
         <SignLink onPress={() => navigation.navigate('SignUp')}>
-          <SignLinkText>Criar conta gratuita</SignLinkText>
+          <SignLinkText>Criar conta grátis</SignLinkText>
         </SignLink>
       </Container>
     </Background>

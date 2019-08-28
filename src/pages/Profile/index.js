@@ -4,6 +4,7 @@ import {useSelector, useDispatch} from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import Background from '../../components/Background';
+import DashboardHeader from '../../components/DashboardHeader';
 import {signOut} from '../../store/modules/auth/actions';
 import {updateProfileRequest} from '../../store/modules/user/actions';
 
@@ -57,6 +58,7 @@ export default function Profile() {
   return (
     <Background>
       <Container>
+        <DashboardHeader />
         <Title>Meu perfil</Title>
 
         <Form>

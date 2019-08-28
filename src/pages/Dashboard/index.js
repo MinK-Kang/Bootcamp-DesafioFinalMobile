@@ -5,6 +5,7 @@ import {withNavigationFocus} from 'react-navigation';
 import api from '../../services/api';
 
 import Background from '../../components/Background';
+import DashboardHeader from '../../components/DashboardHeader';
 import Appointment from '../../components/Appointment';
 
 import {Container, Title, List} from './styles';
@@ -42,6 +43,8 @@ function Dashboard({isFocused}) {
   return (
     <Background>
       <Container>
+        <DashboardHeader />
+
         <Title>Agendamentos</Title>
 
         <List
@@ -57,10 +60,8 @@ function Dashboard({isFocused}) {
 }
 
 Dashboard.navigationOptions = {
-  tabBarLabel: 'Agendamentos',
-  tabBarIcon: ({tintColor}) => (
-    <Icon name="event" size={20} color={tintColor} />
-  ),
+  tabBarLabel: 'Meetups',
+  tabBarIcon: ({tintColor}) => <Icon name="list" size={20} color={tintColor} />,
 };
 
 export default withNavigationFocus(Dashboard);

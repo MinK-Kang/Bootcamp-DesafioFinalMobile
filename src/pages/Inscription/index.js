@@ -1,14 +1,14 @@
 import React, {useEffect, useState} from 'react';
-import {TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
-import api from '../../../services/api';
+import api from '../../services/api';
 
-import Background from '../../../components/Background';
+import Background from '../../components/Background';
+import DashboardHeader from '../../components/DashboardHeader';
 
 import {Container, ProvidersList, Provider, Avatar, Name} from './styles';
 
-export default function SelectProvider({navigation}) {
+export default function Inscription({navigation}) {
   const [providers, setProviders] = useState([]);
 
   useEffect(() => {
@@ -24,6 +24,7 @@ export default function SelectProvider({navigation}) {
   return (
     <Background>
       <Container>
+        <DashboardHeader />
         <ProvidersList
           data={providers}
           keyExtractor={provider => String(provider.id)}
@@ -50,14 +51,9 @@ export default function SelectProvider({navigation}) {
   );
 }
 
-SelectProvider.navigationOptions = ({navigation}) => ({
-  title: 'Selecione o prestador',
-  headerLeft: () => (
-    <TouchableOpacity
-      onPress={() => {
-        navigation.navigate('Dashboard');
-      }}>
-      <Icon name="chevron-left" size={20} color="#fff" />
-    </TouchableOpacity>
+Inscription.navigationOptions = {
+  tabBarLabel: 'Inscrições',
+  tabBarIcon: ({tintColor}) => (
+    <Icon name="local-offer" size={20} color={tintColor} />
   ),
-});
+};
