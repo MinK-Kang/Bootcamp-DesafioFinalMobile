@@ -2,13 +2,13 @@ import styled from 'styled-components/native';
 
 export const Container = styled.View`
   margin-bottom: 15px;
-  padding: 20px;
+  /* padding: 20px; */
   border-radius: 4px;
   background: #fff;
 
   display: flex;
-  flex-direction: row;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-start;
   justify-content: space-between;
 
   opacity: ${props => (props.past ? 0.6 : 1)};
@@ -16,28 +16,41 @@ export const Container = styled.View`
 
 export const Left = styled.View`
   display: flex;
-  flex-direction: row;
-  align-items: center;
 `;
 
-export const Avatar = styled.Image`
-  width: 50px;
-  height: 50px;
-  border-radius: 25px;
+export const Image = styled.Image`
+  width: 100%;
+  height: 120px;
+  margin-bottom: 15;
 `;
 
 export const Info = styled.View`
   margin-left: 15px;
 `;
 
-export const Name = styled.Text`
+export const EventName = styled.Text`
   font-weight: bold;
   font-size: 14px;
   color: #333;
 `;
 
-export const Time = styled.Text`
+export const DateMeetup = styled.Text`
   color: #999;
   font-size: 13px;
   margin-top: 4px;
+`;
+
+export const Location = styled.Text`
+  color: #999;
+  font-size: 13px;
+  margin-top: 4px;
+`;
+
+export const Organizer = styled.Text`
+  flex-direction: row;
+  align-items: center;
+  color: #999;
+  font-size: 13px;
+  margin-top: 4px;
+  margin-bottom: 4px;
 `;
