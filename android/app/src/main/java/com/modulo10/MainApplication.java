@@ -1,4 +1,4 @@
-package com.modulo10;
+package com.Meetup;
 
 import android.app.Application;
 import android.util.Log;
