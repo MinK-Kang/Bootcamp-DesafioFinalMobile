@@ -1,5 +1,7 @@
 import styled from 'styled-components/native';
 
+import Button from '../Button';
+
 export const Container = styled.View`
   margin-bottom: 15px;
   /* padding: 20px; */
@@ -53,4 +55,11 @@ export const Organizer = styled.Text`
   font-size: 13px;
   margin-top: 4px;
   margin-bottom: 4px;
+`;
+
+export const InscriptionButton = styled(Button)`
+  margin-top: 15px;
+  margin-bottom: 15px;
+  margin-left: 35px;
+  width: 200px;
 `;

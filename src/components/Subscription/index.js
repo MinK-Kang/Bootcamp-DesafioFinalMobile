@@ -4,6 +4,8 @@ import pt from 'date-fns/locale/pt';
 import {TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
+import api from '../../services/api';
+
 import meetup from '../../assets/meetup.jpeg';
 
 import {
@@ -15,15 +17,24 @@ import {
   DateMeetup,
   Location,
   Organizer,
+  InscriptionButton,
 } from './styles';
 
-export default function Appointment({data, onCancel}) {
+export default function Subscription({data, onCancel, subscription}) {
   const dateParsed = useMemo(() => {
     return formatRelative(parseISO(data.date), new Date(), {
       locale: pt,
       addSuffix: true,
     });
   }, [data.date]);
+
+  async function handleInscription() {
+    if (subscription) {
+      const response = await api.post(`meetups/${data.id}/subscriptions`);
+    } else {
+      const response = await api.delete(`meetups/${data.id}`);
+    }
+  }
 
   return (
     <Container past={false}>
@@ -43,6 +54,9 @@ export default function Appointment({data, onCancel}) {
             <Icon name="person" size={20} />
             Organizador: Min
           </Organizer>
+          <InscriptionButton onPress={handleInscription}>
+            {!subscription ? 'Realizar inscrição' : 'Cancelar inscrição'}
+          </InscriptionButton>
         </Info>
       </Left>
 

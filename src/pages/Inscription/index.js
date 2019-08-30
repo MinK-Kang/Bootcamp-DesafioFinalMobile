@@ -1,51 +1,38 @@
 import React, {useEffect, useState} from 'react';
-import {TouchableOpacity} from 'react-native';
+import {withNavigationFocus} from 'react-navigation';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import api from '../../services/api';
 
 import Background from '../../components/Background';
 import DashboardHeader from '../../components/DashboardHeader';
+import Subscription from '../../components/Subscription';
 
-import {Container, ProvidersList, Provider, Avatar, Name} from './styles';
+import {Container, SubscriptionList} from './styles';
 
-export default function Inscription({navigation}) {
-  const [providers, setProviders] = useState([]);
+function Inscription({navigation, isFocused}) {
+  const [meetups, setMeetups] = useState([]);
+
+  async function loadSubscriptions() {
+    const response = await api.get('subscriptions');
+
+    setMeetups(response.data);
+  }
 
   useEffect(() => {
-    async function loadProviders() {
-      const response = await api.get('providers');
-
-      setProviders(response.data);
+    if (isFocused) {
+      loadSubscriptions();
     }
-
-    loadProviders();
-  }, []);
+  }, [isFocused]);
 
   return (
     <Background>
       <Container>
         <DashboardHeader />
-        <ProvidersList
-          data={providers}
-          keyExtractor={provider => String(provider.id)}
-          renderItem={({item: provider}) => (
-            <Provider
-              onPress={() =>
-                navigation.navigate('SelectDateTime', {
-                  provider,
-                })
-              }>
-              <Avatar
-                source={{
-                  uri: provider.avatar
-                    ? provider.avatar.url
-                    : `https://api.adorable.io/avatar/50/${provider.name}.png`,
-                }}
-              />
-              <Name>{provider.name}</Name>
-            </Provider>
-          )}
+        <SubscriptionList
+          data={meetups}
+          keyExtractor={item => String(item.id)}
+          renderItem={({item}) => <Subscription data={item} subscription />}
         />
       </Container>
     </Background>
@@ -58,3 +45,5 @@ Inscription.navigationOptions = {
     <Icon name="local-offer" size={20} color={tintColor} />
   ),
 };
+
+export default withNavigationFocus(Inscription);

@@ -1,43 +1,66 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useMemo} from 'react';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {withNavigationFocus} from 'react-navigation';
+import {format, subDays, addDays} from 'date-fns';
+import pt from 'date-fns/locale/pt';
 
 import api from '../../services/api';
 
 import Background from '../../components/Background';
 import DashboardHeader from '../../components/DashboardHeader';
-import Appointment from '../../components/Appointment';
+import Subscription from '../../components/Subscription';
 
-import {Container, Title, List} from './styles';
+import {
+  Container,
+  Title,
+  List,
+  DatePick,
+  ChevronLeftButton,
+  ChevronRightButton,
+} from './styles';
 
 function Dashboard({isFocused}) {
-  const [appointments, setAppointments] = useState([]);
+  const [subscriptions, setSubscriptions] = useState([]);
+  const [meetupDate, setMeetupDate] = useState(new Date());
 
-  async function loadAppointments() {
-    const response = await api.get('appointments');
+  const dateFormatted = useMemo(
+    () => format(meetupDate, "dd 'de' MMMM", {locale: pt}),
+    [meetupDate],
+  );
 
-    setAppointments(response.data);
+  async function loadSubscriptions() {
+    const response = await api.get('subscriptions');
+
+    setSubscriptions(response.data);
   }
 
   useEffect(() => {
     if (isFocused) {
-      loadAppointments();
+      loadSubscriptions();
     }
   }, [isFocused]);
 
   async function handleCancel(id) {
-    const response = await api.delete(`appointments/${id}`);
+    const response = await api.delete(`subscriptions/${id}`);
 
-    setAppointments(
-      appointments.map(appointment =>
-        appointment.id === id
+    setSubscriptions(
+      subscriptions.map(subscription =>
+        subscription.id === id
           ? {
-              ...appointment,
+              ...subscription,
               canceled_at: response.data.canceled_at,
             }
-          : appointment,
+          : subscription,
       ),
     );
+  }
+
+  function handlePrevDate() {
+    setMeetupDate(subDays(meetupDate, 1));
+  }
+
+  function handleNextDate() {
+    setMeetupDate(addDays(meetupDate, 1));
   }
 
   return (
@@ -45,13 +68,22 @@ function Dashboard({isFocused}) {
       <Container>
         <DashboardHeader />
 
-        <Title>Agendamentos</Title>
+        <DatePick>
+          <ChevronLeftButton onPress={handlePrevDate}>
+            <Icon name="chevron-left" size={20} color="#fff" />
+          </ChevronLeftButton>
 
+          <Title>{dateFormatted}</Title>
+
+          <ChevronRightButton onPress={handleNextDate}>
+            <Icon name="chevron-right" size={20} color="#fff" />
+          </ChevronRightButton>
+        </DatePick>
         <List
-          data={appointments}
+          data={subscriptions}
           keyExtractor={item => String(item.id)}
           renderItem={({item}) => (
-            <Appointment onCancel={() => handleCancel(item.id)} data={item} />
+            <Subscription onCancel={() => handleCancel(item.id)} data={item} />
           )}
         />
       </Container>
